@@ -17,6 +17,11 @@ public class RocketMQConsumer {
     // Requirement: "listen to bet-settlements... consume the messages and settle the bets"
     @EventListener
     public void consume(Bet bet) {
+        if (bet == null) {
+            log.warn("Mock RocketMQ Consumer - Received null bet. Skipping settlement.");
+            return;
+        }
+
         log.info("Mock RocketMQ Consumer - Received message: {}", bet);
 
         // Settling the Bet in DB

@@ -15,6 +15,11 @@ public class RocketMQProducer {
     private final ApplicationEventPublisher eventPublisher;
 
     public void sendSettlement(Bet bet) {
+        if (bet == null) {
+            log.warn("Attempted to publish null bet. Skipping.");
+            return;
+        }
+        
         log.info("Mock RocketMQ Producer - Sending payload to bet-settlements: {}", bet);
         eventPublisher.publishEvent(bet);
     }

@@ -65,26 +65,20 @@ class KafkaConsumerServiceTest {
     }
 
     @Test
-    void shouldHandleNullEvent() {
-        assertThrows(NullPointerException.class, () -> {
-            kafkaConsumerService.consume(null);
-        });
+    void shouldHandleNullEventGracefully() {
+        kafkaConsumerService.consume(null);
+
+        verify(betRepository, never()).findByEventId(anyString());
+        verify(rocketMQProducer, never()).sendSettlement(any(Bet.class));
     }
 
     @Test
-    void shouldHandleEventWithNullWinner() {
-        EventOutcome event = new EventOutcome("event1", "Match 1", null);
+    void shouldHandleEventWithNullWinnerGracefully() {
+        EventOutcome invalidEvent = new EventOutcome("event1", "Match 1", null);
 
-        Bet bet = new Bet("1", "user1", "event1", "market1", "teamA", 100.0, "PENDING");
+        kafkaConsumerService.consume(invalidEvent);
 
-        when(betRepository.findByEventId("event1"))
-                .thenReturn(List.of(bet));
-
-        kafkaConsumerService.consume(event);
-
-        assertNotNull(bet.getStatus());
-
-        verify(rocketMQProducer, times(1))
-                .sendSettlement(any(Bet.class));
+        verify(betRepository, never()).findByEventId(anyString());
+        verify(rocketMQProducer, never()).sendSettlement(any(Bet.class));
     }
 }

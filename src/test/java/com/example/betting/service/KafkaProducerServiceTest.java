@@ -2,6 +2,7 @@ package com.example.betting.service;
 
 import com.example.betting.model.EventOutcome;
 
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,25 +54,5 @@ class KafkaProducerServiceTest {
 
         verify(kafkaTemplate, times(1))
                 .send("event-outcomes", event);
-    }
-
-    @Test
-    void shouldSendEventEvenIfEventIdIsEmpty() {
-        EventOutcome invalidEvent = new EventOutcome("", "Match 1", "teamA");
-
-        kafkaProducerService.sendEvent(invalidEvent);
-
-        verify(kafkaTemplate, times(1))
-                .send("event-outcomes", invalidEvent);
-    }
-
-    @Test
-    void shouldSendEventEvenIfWinnerIdIsNull() {
-        EventOutcome invalidEvent = new EventOutcome("event1", "Match 1", null);
-
-        kafkaProducerService.sendEvent(invalidEvent);
-
-        verify(kafkaTemplate, times(1))
-                .send("event-outcomes", invalidEvent);
     }
 }

@@ -21,6 +21,15 @@ public class KafkaConsumerService {
 
     @KafkaListener(topics = "event-outcomes", groupId = "bet-group")
     public void consume(EventOutcome event) {
+        if (event == null) {
+            log.warn("Received null event outcome payload. Skipping processing.");
+            return;
+        }
+
+        if (event.getEventId() == null || event.getWinnerId() == null) {
+            log.warn("Received corrupted event outcome missing ID or Winner: {}. Skipping.", event);
+            return;
+        }
 
         log.info("Kafka Consumer Received Event: {}", event);
 

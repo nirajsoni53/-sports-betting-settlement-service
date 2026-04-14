@@ -32,4 +32,13 @@ class RocketMQProducerTest {
         verify(eventPublisher, times(1))
                 .publishEvent(bet);
     }
+
+    @Test
+    void shouldHandleNullBetGracefully() {
+
+        rocketMQProducer.sendSettlement(null);
+
+        verify(eventPublisher, never())
+                .publishEvent(any());
+    }
 }
