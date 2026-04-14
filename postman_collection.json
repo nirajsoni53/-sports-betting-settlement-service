@@ -1,0 +1,56 @@
+{
+  "info": {
+    "name": "Betting Service API",
+    "_postman_id": "12345-abcde",
+    "description": "API for publishing event outcomes",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Publish Event Outcome - Team A Wins",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"eventId\": \"event1\",\n  \"eventName\": \"Match 1\",\n  \"winnerId\": \"teamA\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/events/outcome",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["events", "outcome"]
+        }
+      }
+    },
+    {
+      "name": "Publish Event Outcome - Team B Wins",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"eventId\": \"event1\",\n  \"eventName\": \"Match 1\",\n  \"winnerId\": \"teamB\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/events/outcome",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["events", "outcome"]
+        }
+      }
+    }
+  ]
+}
